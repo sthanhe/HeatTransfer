@@ -1,0 +1,43 @@
+<KroVaCal32 Version="0.3">
+    <Comission PaNo="350-0104" VkNo="MICROROTA" PositionNo="10" YearIdx="0" RevisionIndex="0">VG6141136133010000000100</Comission>
+    <Calculation Name="Standard-Umrechnung" Type="0" Version="4.2.2.2080" CoreVersion="4.1.4.2078" DbVersion="1.3.1.7" SubstDbVersion="0.0.6.4" IoConversionFactor="1.293" IoMassFlowUnitId="75" IoVolumeFlowUnitId="19">
+        <Substance Aggregate="2" Name="Luft" Formula="-" Concentration="100.0" CompressibilityFactor="0.9995" FlowType="2" VolumeReference="1" Ruppel="0.0224116418" AlphaM="0.0121458553" qMin="1.7581391675" qMax="20.5189501228">
+            <Temperature Value="20.0" MinRange="0.0" MaxRange="0.0" NormValue="293.0" UnitName="°C" UnitIndex="1" ConversionFlags="0" ConversionFactor="1.0" ConversionOffset="273.0" />
+            <Pressure Value="1.2" MinRange="0.0" MaxRange="0.0" NormValue="1.2" UnitName="bar" UnitIndex="2" ConversionFlags="0" ConversionFactor="1.0" ConversionOffset="0.0" Reference="2" />
+            <Density Value="1.293" MinRange="0.0" MaxRange="0.0" NormValue="0.001293" UnitName="kg/m³" UnitIndex="29" ConversionFlags="0" ConversionFactor="0.001" ConversionOffset="0.0" Reference="1" />
+            <Viscosity Value="0.018149" MinRange="0.0" MaxRange="0.0" NormValue="0.018149" UnitName="mPa.s" UnitIndex="1" ConversionFlags="0" ConversionFactor="1.0" ConversionOffset="0.0" Reference="1" />
+            <MaxFlow Value="20.0" MinRange="0.0" MaxRange="0.0" NormValue="25.86" UnitName="m³/h" UnitIndex="7" ConversionFlags="0" ConversionFactor="1000.0" ConversionOffset="0.0" Reference="1" MinFlow="2.0" />
+        </Substance>
+        <Reference Aggregate="2" Name="Luft" Formula="-" Concentration="100.0" CompressibilityFactor="0.99994" FlowType="2" VolumeReference="1" Ruppel="0.0154747394" AlphaM="0.0084063595" qMin="2.6429412724" qMax="30.0639577362">
+            <Temperature Value="20.63672097" MinRange="0.0" MaxRange="0.0" NormValue="293.63672097" UnitName="°C" UnitIndex="1" ConversionFlags="0" ConversionFactor="1.0" ConversionOffset="273.0" />
+            <Pressure Value="1.5" MinRange="0.0" MaxRange="0.0" NormValue="2.513" UnitName="bar" UnitIndex="2" ConversionFlags="0" ConversionFactor="1.0" ConversionOffset="0.0" Reference="1" />
+            <Density Value="1.293" MinRange="0.0" MaxRange="0.0" NormValue="0.001293" UnitName="kg/m³" UnitIndex="29" ConversionFlags="0" ConversionFactor="0.001" ConversionOffset="0.0" Reference="1" />
+            <Viscosity Value="0.018106" MinRange="0.0" MaxRange="0.0" NormValue="0.018106" UnitName="mPa.s" UnitIndex="1" ConversionFlags="0" ConversionFactor="1.0" ConversionOffset="0.0" Reference="1" />
+            <MaxFlow Value="20.0" MinRange="0.0" MaxRange="0.0" NormValue="25.86" UnitName="m³/h" UnitIndex="7" ConversionFlags="0" ConversionFactor="1000.0" ConversionOffset="0.0" Reference="1" MinFlow="2.0" />
+        </Reference>
+        <Results NumData="7" ScaleType="0" ErrorCode="0" WarningCode="0" WasTemperatureCorrectionApplied="FALSE" PressureDrop="8.0">
+            <ResultData FlowSubstance="20.0" FlowSubstanceCorrected="20.0" FlowReference="29.31" FlowReferenceUncorrected="29.31" Delta="1.1214379331" AlphaSubstance="0.3140918169" AlphaReference="0.3185738289" OutputMa="0.0" ScaleLength="0.0" />
+            <ResultData FlowSubstance="17.0" FlowSubstanceCorrected="17.0" FlowReference="24.92" FlowReferenceUncorrected="24.92" Delta="1.1058779167" AlphaSubstance="0.2669780444" AlphaReference="0.270918755" OutputMa="0.0" ScaleLength="0.0" />
+            <ResultData FlowSubstance="14.0" FlowSubstanceCorrected="14.0" FlowReference="20.56" FlowReferenceUncorrected="20.56" Delta="1.0897593061" AlphaSubstance="0.2198642718" AlphaReference="0.2235260441" OutputMa="0.0" ScaleLength="0.0" />
+            <ResultData FlowSubstance="11.0" FlowSubstanceCorrected="11.0" FlowReference="16.2" FlowReferenceUncorrected="16.2" Delta="1.072818047" AlphaSubstance="0.1727504993" AlphaReference="0.1760895321" OutputMa="0.0" ScaleLength="0.0" />
+            <ResultData FlowSubstance="8.0" FlowSubstanceCorrected="8.0" FlowReference="11.81" FlowReferenceUncorrected="11.81" Delta="1.0550872616" AlphaSubstance="0.1256367268" AlphaReference="0.1283221092" OutputMa="0.0" ScaleLength="0.0" />
+            <ResultData FlowSubstance="5.0" FlowSubstanceCorrected="5.0" FlowReference="7.412" FlowReferenceUncorrected="7.412" Delta="1.0367804637" AlphaSubstance="0.0785229542" AlphaReference="0.0805686249" OutputMa="0.0" ScaleLength="0.0" />
+            <ResultData FlowSubstance="4.0" FlowSubstanceCorrected="4.0" FlowReference="5.944" FlowReferenceUncorrected="5.944" Delta="1.0305245354" AlphaSubstance="0.0628183634" AlphaReference="0.0646055179" OutputMa="0.0" ScaleLength="0.0" />
+        </Results>
+    </Calculation>
+    <DeviceData DeviceTypeId="11" DeviceTypeName="" ConeSize="3" ConeSizeName="" ConeId="47" ConeName="" FloatId="118" FloatName="" DampingManually="FALSE" DampingType="2" DampingTypeName="ohne" FloatMaterialId="2" FloatMaterialName="" IndicatorId="9" IndicatorName="" OutputSignalId="2" OutputSignalName="" DeviceDataId="593" TenPercentScale="0" UseStandardData="1" AlphaRuTable="KVC_AIIIN_ARU" FloatDiameter="28.27" FloatMass="46.76" FloatDensity="2.85" IsFloatHorizontal="FALSE" DoTemperatureCorrection="TRUE" />
+    <Device TagNo="" LifetimeSerialNo="">
+        <scale scaledefinitionfile="" scaledefinitionid="-1" autoselectsubdivisions="1">
+            <scalelayers />
+            <scalevariables />
+            <scaleproperties />
+            <scaledata idx="0" calculation="-1" subdivisions="1" />
+            <scaledata idx="1" calculation="-1" subdivisions="1" />
+        </scale>
+    </Device>
+    <Security OverrideRuMin="0" OverrideRuMax="0" OverrideRuTableMin="1" OverrideDeltaLimits="0" OverrideSmallScaleLength="0">
+        <Revision User="stefa" Date="2021-03-20 16:51:50" Version="4.2.2.2080" />
+        <Revision User="stefa" Date="2021-03-20 17:20:26" Version="4.2.2.2080" />
+        <Revision User="stefa" Date="2021-03-20 17:21:09" Version="4.2.2.2080" />
+    </Security>
+</KroVaCal32>

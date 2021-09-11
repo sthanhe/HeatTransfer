@@ -1,0 +1,45 @@
+<KroVaCal32 Version="0.3">
+    <Comission PaNo="350-01108" VkNo="LINIROTA" PositionNo="10" YearIdx="0" RevisionIndex="0">VG6141138133010000000100</Comission>
+    <Calculation Name="Standard-Umrechnung" Type="0" Version="4.2.2.2080" CoreVersion="4.1.4.2078" DbVersion="1.3.1.7" SubstDbVersion="0.0.6.4" IoConversionFactor="1.293" IoMassFlowUnitId="75" IoVolumeFlowUnitId="19">
+        <Substance Aggregate="2" Name="Luft" Formula="-" Concentration="100.0" CompressibilityFactor="0.9995" FlowType="2" VolumeReference="1" Ruppel="0.0224116418" AlphaM="0.0121458553" qMin="4.2719890286" qMax="49.0850030883">
+            <Temperature Value="20.0" MinRange="0.0" MaxRange="0.0" NormValue="293.0" UnitName="°C" UnitIndex="1" ConversionFlags="0" ConversionFactor="1.0" ConversionOffset="273.0" />
+            <Pressure Value="1.2" MinRange="0.0" MaxRange="0.0" NormValue="1.2" UnitName="bar" UnitIndex="2" ConversionFlags="0" ConversionFactor="1.0" ConversionOffset="0.0" Reference="2" />
+            <Density Value="1.293" MinRange="0.0" MaxRange="0.0" NormValue="0.001293" UnitName="kg/m³" UnitIndex="29" ConversionFlags="0" ConversionFactor="0.001" ConversionOffset="0.0" Reference="1" />
+            <Viscosity Value="0.018149" MinRange="0.0" MaxRange="0.0" NormValue="0.018149" UnitName="mPa.s" UnitIndex="1" ConversionFlags="0" ConversionFactor="1.0" ConversionOffset="0.0" Reference="1" />
+            <MaxFlow Value="44.0" MinRange="0.0" MaxRange="0.0" NormValue="56.892" UnitName="m³/h" UnitIndex="7" ConversionFlags="0" ConversionFactor="1000.0" ConversionOffset="0.0" Reference="1" MinFlow="4.4" />
+        </Substance>
+        <Reference Aggregate="2" Name="Luft" Formula="-" Concentration="100.0" CompressibilityFactor="0.99994" FlowType="2" VolumeReference="1" Ruppel="0.0154747394" AlphaM="0.0084063595" qMin="6.3432354418" qMax="71.7227015131">
+            <Temperature Value="20.63672097" MinRange="0.0" MaxRange="0.0" NormValue="293.63672097" UnitName="°C" UnitIndex="1" ConversionFlags="0" ConversionFactor="1.0" ConversionOffset="273.0" />
+            <Pressure Value="1.5" MinRange="0.0" MaxRange="0.0" NormValue="2.513" UnitName="bar" UnitIndex="2" ConversionFlags="0" ConversionFactor="1.0" ConversionOffset="0.0" Reference="1" />
+            <Density Value="1.293" MinRange="0.0" MaxRange="0.0" NormValue="0.001293" UnitName="kg/m³" UnitIndex="29" ConversionFlags="0" ConversionFactor="0.001" ConversionOffset="0.0" Reference="1" />
+            <Viscosity Value="0.018106" MinRange="0.0" MaxRange="0.0" NormValue="0.018106" UnitName="mPa.s" UnitIndex="1" ConversionFlags="0" ConversionFactor="1.0" ConversionOffset="0.0" Reference="1" />
+            <MaxFlow Value="44.0" MinRange="0.0" MaxRange="0.0" NormValue="56.892" UnitName="m³/h" UnitIndex="7" ConversionFlags="0" ConversionFactor="1000.0" ConversionOffset="0.0" Reference="1" MinFlow="4.4" />
+        </Reference>
+        <Results NumData="10" ScaleType="2" ErrorCode="0" WarningCode="0" WasTemperatureCorrectionApplied="FALSE" PressureDrop="12.0">
+            <ResultData FlowSubstance="44.0" FlowSubstanceCorrected="44.0" FlowReference="64.31" FlowReferenceUncorrected="64.31" Delta="1.2295087707" AlphaSubstance="0.6910019972" AlphaReference="0.6990147672" OutputMa="0.0" ScaleLength="0.0" />
+            <ResultData FlowSubstance="40.0" FlowSubstanceCorrected="40.0" FlowReference="58.46" FlowReferenceUncorrected="58.46" Delta="1.2130718997" AlphaSubstance="0.6281836338" AlphaReference="0.6354299069" OutputMa="0.0" ScaleLength="0.0" />
+            <ResultData FlowSubstance="35.0" FlowSubstanceCorrected="35.0" FlowReference="51.17" FlowReferenceUncorrected="51.17" Delta="1.1918735655" AlphaSubstance="0.5496606796" AlphaReference="0.5561961638" OutputMa="0.0" ScaleLength="0.0" />
+            <ResultData FlowSubstance="30.0" FlowSubstanceCorrected="30.0" FlowReference="43.88" FlowReferenceUncorrected="43.88" Delta="1.1698268375" AlphaSubstance="0.4711377253" AlphaReference="0.4769873375" OutputMa="0.0" ScaleLength="0.0" />
+            <ResultData FlowSubstance="25.0" FlowSubstanceCorrected="25.0" FlowReference="36.59" FlowReferenceUncorrected="36.59" Delta="1.1461811782" AlphaSubstance="0.3926147711" AlphaReference="0.3977294318" OutputMa="0.0" ScaleLength="0.0" />
+            <ResultData FlowSubstance="20.0" FlowSubstanceCorrected="20.0" FlowReference="29.31" FlowReferenceUncorrected="29.31" Delta="1.1214379331" AlphaSubstance="0.3140918169" AlphaReference="0.3185738289" OutputMa="0.0" ScaleLength="0.0" />
+            <ResultData FlowSubstance="15.0" FlowSubstanceCorrected="15.0" FlowReference="22.02" FlowReferenceUncorrected="22.02" Delta="1.0951896117" AlphaSubstance="0.2355688627" AlphaReference="0.2393025043" OutputMa="0.0" ScaleLength="0.0" />
+            <ResultData FlowSubstance="10.0" FlowSubstanceCorrected="10.0" FlowReference="14.74" FlowReferenceUncorrected="14.74" Delta="1.0669978965" AlphaSubstance="0.1570459084" AlphaReference="0.1601946157" OutputMa="0.0" ScaleLength="0.0" />
+            <ResultData FlowSubstance="5.0" FlowSubstanceCorrected="5.0" FlowReference="7.412" FlowReferenceUncorrected="7.412" Delta="1.0367804637" AlphaSubstance="0.0785229542" AlphaReference="0.0805686249" OutputMa="0.0" ScaleLength="0.0" />
+            <ResultData FlowSubstance="4.4" FlowSubstanceCorrected="4.4" FlowReference="6.531" FlowReferenceUncorrected="6.531" Delta="1.0330269067" AlphaSubstance="0.0691001997" AlphaReference="0.0709907607" OutputMa="0.0" ScaleLength="0.0" />
+        </Results>
+    </Calculation>
+    <DeviceData DeviceTypeId="11" DeviceTypeName="" ConeSize="3" ConeSizeName="" ConeId="49" ConeName="" FloatId="118" FloatName="" DampingManually="FALSE" DampingType="2" DampingTypeName="auto" FloatMaterialId="2" FloatMaterialName="" IndicatorId="9" IndicatorName="" OutputSignalId="2" OutputSignalName="" DeviceDataId="1505" TenPercentScale="0" UseStandardData="1" AlphaRuTable="KVC_AIIIN_ARU" FloatDiameter="28.27" FloatMass="46.76" FloatDensity="2.85" IsFloatHorizontal="FALSE" DoTemperatureCorrection="TRUE" />
+    <Device TagNo="" LifetimeSerialNo="">
+        <scale scaledefinitionfile="" scaledefinitionid="-1" autoselectsubdivisions="1">
+            <scalelayers />
+            <scalevariables />
+            <scaleproperties />
+            <scaledata idx="0" calculation="-1" subdivisions="1" />
+            <scaledata idx="1" calculation="-1" subdivisions="1" />
+        </scale>
+    </Device>
+    <Security OverrideRuMin="0" OverrideRuMax="0" OverrideRuTableMin="1" OverrideDeltaLimits="0" OverrideSmallScaleLength="0">
+        <Revision User="stefa" Date="2021-03-21 08:33:48" Version="4.2.2.2080" />
+        <Revision User="stefa" Date="2021-03-21 08:35:59" Version="4.2.2.2080" />
+    </Security>
+</KroVaCal32>
