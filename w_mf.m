@@ -11,7 +11,7 @@
 %
 %All required files for this function can be found in the software
 %repository:
-%https://doi.org/10.5281/zenodo.5500329
+%https://doi.org/10.5281/zenodo.5802407
 %
 %
 %
@@ -32,14 +32,7 @@
 %   - @DryAir
 
 
-function w_mf=w_mf(d_p,rho_p,T)
-    %All parameters and results in SI base units
-    
-    %d_p    particle diameter, m
-    %rho_p  particle bulk density, kg/m³
-    %T      fluidization temperature, K
-    
-    %%
+function w_mf=w_mf(d_p,rho_p,p,T)
     persistent C1 C2 g
     if isempty(C1)
         %C1, C2 according to Richardson
@@ -50,8 +43,8 @@ function w_mf=w_mf(d_p,rho_p,T)
     end
     
     
-    rho_g=DryAir.rho(T);
     eta_g=DryAir.eta(T);
+    rho_g=DryAir.rho(p,T);
     
     Ar=rho_g.*d_p.^3.*(rho_p-rho_g).*g./eta_g.^2;
     Re=sqrt(C1.^2+C2.*Ar)-C1;
