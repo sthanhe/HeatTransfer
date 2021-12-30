@@ -1,6 +1,6 @@
 Configuration files for re-scaling rotameter scales by Krohne
 Used software: KROVACAL, Version 4.2.2.2080
-Download for free: https://de.krohne.com/en/services/krovasys/ 
+The file "Permission_KROHNE.pdf" is the written permission of the developer to distribute this software
 
 
 LINI.xml 		--> LINI rotameter
