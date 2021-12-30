@@ -11,12 +11,12 @@
 %
 %All required files for this class can be found in the software
 %repository:
-%https://doi.org/10.5281/zenodo.5500329
+%https://doi.org/10.5281/zenodo.5802407
 %
 %
 %
-%This class describes the thermo-physical properties of dry air at ambient
-%pressure according to:
+%This class describes the thermo-physical properties of dry air as an ideal
+%gas according to:
 %
 %Span, R. Properties of Dry Air. In VDI Heat Atlas, 2nd ed.; Stephan, P., 
 %Kabelac, S., et al., Eds.; Springer: Berlin Heidelberg, Germany, 2010; 
@@ -28,7 +28,7 @@
 %Required products:
 %   - MATLAB, version 9.10
 %   - Curve Fitting Toolbox, version 3.5.13
-%Necessary files, classes and functions:
+%Data files:
 %   - dryAir.xls
 %   - dryAirTable.mat
 
@@ -36,17 +36,18 @@
 classdef DryAir
     %All parameters and results in SI base units
     
+    %% Constants
+    properties(Constant)
+        M=28.9583e-3;   %molar mass
+        R=287.12;       %specific gas constant
+    end
+    
+    
     %% prop(T) functions
     methods(Static)
-        function rho=rho(T)
+        function rho=rho(p,T)
             %Density
-            persistent tab
-            if isempty(tab)
-                tabStruct=load('@DryAir\dryAirTable.mat','tab');
-                tab=tabStruct.tab;
-            end
-            
-            rho=interp1(tab.T,tab.rho,T);
+            rho=p./(DryAir.R.*T);
         end
         
         
@@ -63,7 +64,7 @@ classdef DryAir
         
         
         function s=s(T)
-            %Specific entropy
+            %Specific entropy. Does not account for pressure variations!
             persistent tab
             if isempty(tab)
                 tabStruct=load('@DryAir\dryAirTable.mat','tab');
@@ -146,7 +147,7 @@ classdef DryAir
         end
         
         
-        function ny=ny(T)
+        function ny=ny(p,T)
             %Kinematic viscosity
             persistent tab
             if isempty(tab)
@@ -154,19 +155,13 @@ classdef DryAir
                 tab=tabStruct.tab;
             end
             
-            ny=interp1(tab.T,tab.ny,T);
+            ny=DryAir.eta(T)./DryAir.rho(p,T);
         end
         
         
-        function a=a(T)
-            %Thermal diffusivity
-            persistent tab
-            if isempty(tab)
-                tabStruct=load('@DryAir\dryAirTable.mat','tab');
-                tab=tabStruct.tab;
-            end
-            
-            a=interp1(tab.T,tab.a,T);
+        function a=a(p,T)
+            %Thermal diffusivity            
+            a=DryAir.ny(p,T)./DryAir.Pr(T);
         end
         
         
@@ -183,7 +178,7 @@ classdef DryAir
     end
     
     
-    %% other property functions
+    %% Other property functions
     methods(Static)
         function T=T_h(h)
             %Backwards-equation for temperature as function of specific

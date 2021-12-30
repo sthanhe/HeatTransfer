@@ -11,7 +11,7 @@
 %
 %All required files for this class can be found in the software
 %repository:
-%https://doi.org/10.5281/zenodo.5500329
+%https://doi.org/10.5281/zenodo.5802407
 %
 %
 %
@@ -28,7 +28,8 @@
 %Required products:
 %   - MATLAB, version 9.10
 %   - Curve Fitting Toolbox, version 3.5.13
-%Necessary files, classes and functions:
+%Data files:
+%   - backwardEquation.sfit
 %   - createFits.m
 %   - fits.mat
 
@@ -172,7 +173,7 @@ classdef SiO2
         
         
         function [alpha,beta]=getPhases(T)
-            alpha=298<=T & T<847;
+            alpha=290<=T & T<847;   %reasonable extrapolation from 290 to 298 K
             beta=847<=T & T<=1996;
         end
     end
