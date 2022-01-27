@@ -11,11 +11,11 @@
 %
 %All data, along with methodology reports and supplementary documentation, 
 %is published in the data repository:
-%https://doi.org/10.5281/zenodo.5802409
+%https://doi.org/10.5281/zenodo.5890230
 %
 %All required files for this script can be found in the software
 %repository:
-%https://doi.org/10.5281/zenodo.5802407
+%https://doi.org/10.5281/zenodo.5500329
 %
 %
 %
@@ -108,78 +108,7 @@ tab87.alpha_net=(tab87.U.*tab87.I-Qdot_loss)./A./(T_surf-tab87.T_BED1);
 tab87=accMICRO(tab87,d_p1);
 
 
-%Create figure
-fig=figure(9);
-clf(fig);
-ax=gca;
-colors=ax.ColorOrder;
-xlim=[3.5,13];
-xfit=linspace(xlim(1),xlim(2),50);
-hold on
-
-
-%Regular Pitch
-pitch=contains(tab87.Dataset,'87mum_RegularPitch');
-x=tab87.FG(pitch);
-
-
-y=tab87.alpha_gross(pitch);
-scatter(ax,x,y,10,colors(1,:),'o');
-
-[fitReg87gross,gofReg87gross]=fit(x,y,'poly2');
-plot(xfit,fitReg87gross(xfit),'Color',colors(1,:),'LineStyle','-');
-
-
-y=tab87.alpha_net(pitch);
-scatter(ax,x,y,10,colors(2,:),'+');
-
-[fitReg87net,gofReg87net]=fit(x,y,'poly2');
-plot(xfit,fitReg87net(xfit),'Color',colors(2,:),'LineStyle','--');
-
-
-%sandTES Pitch
-pitch=contains(tab87.Dataset,'87mum_sandTESPitch');
-x=tab87.FG(pitch);
-
-
-y=tab87.alpha_gross(pitch);
-scatter(ax,x,y,20,colors(3,:),'x');
-
-[fitST87gross,gofST87gross]=fit(x,y,'poly2');
-plot(xfit,fitST87gross(xfit),'Color',colors(3,:),'LineStyle',':','LineWidth',1);
-
-
-y=tab87.alpha_net(pitch);
-scatter(ax,x,y,20,colors(4,:),'s');
-
-[fitST87net,gofST87net]=fit(x,y,'poly2');
-plot(xfit,fitST87net(xfit),'Color',colors(4,:),'LineStyle','-.');
-
-
-%Figure formatting
-legItems=repmat(line(),4,1);
-legItems(1)=plot(NaN,NaN,'Color',colors(1,:),'LineStyle','-','Marker','o');
-legItems(2)=plot(NaN,NaN,'Color',colors(2,:),'LineStyle','--','Marker','+');
-legItems(3)=plot(NaN,NaN,'Color',colors(3,:),'LineStyle',':','Marker','x','LineWidth',1);
-legItems(4)=plot(NaN,NaN,'Color',colors(4,:),'LineStyle','-.','Marker','s');
-hold off
-
-title(ax,['HTCs MICRO Rig, d_p=87 µm, w_{mf}=',num2str(round(mean(wmf87*10^3),1)),' mm/s']);
-xlabel(ax,'Fluidization Degree (-)');
-ylabel(ax,'Heat Transfer Coefficient (W/m²K)');
-legend(legItems,{['Regular Spacing Gross',newline,'R^2 = ',num2str(round(gofReg87gross.rsquare,3))],...
-                    ['Regular Spacing Net',newline,'R^2 = ',num2str(round(gofReg87net.rsquare,3))],...
-                    ['sandTES Spacing Gross',newline,'R^2 = ',num2str(round(gofST87gross.rsquare,3))],...
-                    ['sandTES Spacing Net',newline,'R^2 = ',num2str(round(gofST87net.rsquare,3))]},...
-                    'Location','bestoutside');
-
-fig.Units='centimeters';
-fig.Position=[10,5,17,8.5];
-ax.XLim=xlim;
-ax.YGrid='on';
-saveas(fig,'Figure9.tiff');
-
-save('resultsMICRO.mat','tab87','fitReg87gross','fitST87gross','wmf87');
+save('resultsMICRO.mat','tab87','wmf87');
 
 
 %% 210 µm
@@ -234,111 +163,58 @@ tab210.alpha_net=(tab210.U.*tab210.I-Qdot_loss)./A./(T_surf-tab210.T_BED1);
 tab210=accMICRO(tab210,d_p2);
 
 
+save('resultsMICRO.mat','tab210','wmf210','-append');
+
+
+%% Regular Spacing
+%Create figure
+fig=figure(9);
+clf(fig);
+ax=gca;
+xfit87=linspace(3.5,13,50);
+xfit210=linspace(1.5,6,50);
+hold(ax,'on');
+
+
+%Plotting
+FGbounds87=[4,5,7,10,13];
+[fitReg87gross,gofReg87gross,fitReg87net,gofReg87net]=plotGrossNet(ax,tab87,'Regular',FGbounds87,xfit87,[1,2]);
+
+FGbounds210=[1,2.5,3,4,4.7,5.5];
+[fitReg210gross,gofReg210gross,fitReg210net,gofReg210net]=plotGrossNet(ax,tab210,'Regular',FGbounds210,xfit210,[3,4]);
+
+
+%Figure formatting
+formatFigure(fig,[gofReg87gross,gofReg87net,gofReg210gross,gofReg210net]);
+title(ax,'HTCs MICRO Rig, Regular Spacing');
+
+saveas(fig,'Figure9.tiff');
+
+save('resultsMICRO.mat','fitReg87gross','fitReg87net','fitReg210gross','fitReg210net','-append');
+
+
+%% sandTES Spacing
 %Create figure
 fig=figure(10);
 clf(fig);
 ax=gca;
 colors=ax.ColorOrder;
-xlim=[1,6];
-xfit=linspace(xlim(1),xlim(2),50);
-hold on
+hold(ax,'on');
 
 
-%Regular Pitch
-pitch=contains(tab210.Dataset,'210mum_RegularPitch');
-x=tab210.FG(pitch);
+%Plotting
+[fitST87gross,gofST87gross,fitST87net,gofST87net]=plotGrossNet(ax,tab87,'sandTES',FGbounds87,xfit87,[1,2]);
 
-
-y=tab210.alpha_gross(pitch);
-scatter(ax,x,y,10,colors(1,:),'o');
-
-[fitReg210gross,gofReg210gross]=fit(x,y,'poly2');
-plot(xfit,fitReg210gross(xfit),'Color',colors(1,:),'LineStyle','-');
-
-
-y=tab210.alpha_net(pitch);
-scatter(ax,x,y,10,colors(2,:),'+');
-
-[fitReg210net,gofReg210net]=fit(x,y,'poly2');
-plot(xfit,fitReg210net(xfit),'Color',colors(2,:),'LineStyle','--');
-
-
-%sandTES Pitch
-pitch=contains(tab210.Dataset,'210mum_sandTESPitch');
-x=tab210.FG(pitch);
-
-
-y=tab210.alpha_gross(pitch);
-scatter(ax,x,y,20,colors(3,:),'x');
-
-[fitST210gross,gofST210gross]=fit(x,y,'poly2');
-plot(xfit,fitST210gross(xfit),'Color',colors(3,:),'LineStyle',':','LineWidth',1);
-
-
-y=tab210.alpha_net(pitch);
-scatter(ax,x,y,20,colors(4,:),'s');
-
-[fitST210net,gofST210net]=fit(x,y,'poly2');
-plot(xfit,fitST210net(xfit),'Color',colors(4,:),'LineStyle','-.');
+[fitST210gross,gofST210gross,fitST210net,gofST210net]=plotGrossNet(ax,tab210,'sandTES',FGbounds210,xfit210,[3,4]);
 
 
 %Figure formatting
-legItems=repmat(line(),4,1);
-legItems(1)=plot(NaN,NaN,'Color',colors(1,:),'LineStyle','-','Marker','o');
-legItems(2)=plot(NaN,NaN,'Color',colors(2,:),'LineStyle','--','Marker','+');
-legItems(3)=plot(NaN,NaN,'Color',colors(3,:),'LineStyle',':','Marker','x','LineWidth',1);
-legItems(4)=plot(NaN,NaN,'Color',colors(4,:),'LineStyle','-.','Marker','s');
-hold off
+formatFigure(fig,[gofST87gross,gofST87net,gofST210gross,gofST210net]);
+title(ax,'HTCs MICRO Rig, sandTES Spacing');
 
-title(ax,['HTCs MICRO Rig, d_p=210 µm, w_{mf}=',num2str(round(mean(wmf210*10^3),1)),' mm/s']);
-xlabel(ax,'Fluidization Degree (-)');
-ylabel(ax,'Heat Transfer Coefficient (W/m²K)');
-legend(legItems,{['Regular Spacing Gross',newline,'R^2 = ',num2str(round(gofReg210gross.rsquare,3))],...
-                    ['Regular Spacing Net',newline,'R^2 = ',num2str(round(gofReg210net.rsquare,3))],...
-                    ['sandTES Spacing Gross',newline,'R^2 = ',num2str(round(gofST210gross.rsquare,3))],...
-                    ['sandTES Spacing Net',newline,'R^2 = ',num2str(round(gofST210net.rsquare,3))]},...
-                    'Location','bestoutside');
-
-fig.Units='centimeters';
-fig.Position=[10,5,17,8.5];
-ax.XLim=xlim;
-ax.YLim=[100,350];
-ax.YGrid='on';
 saveas(fig,'Figure10.tiff');
 
-save('resultsMICRO.mat','tab210','fitReg210gross','fitST210gross','wmf210','-append');
-
-
-%% Comparison between 87 µm and 210 µm
-%Create figure
-fig=figure(11);
-clf(fig);
-ax=gca;
-colors=ax.ColorOrder;
-xlim=[3,7];
-xfit=linspace(xlim(1),xlim(2),50);
-hold on
-
-
-%Plot previous fits
-plot(xfit,fitST87gross(xfit),'Color',colors(1,:),'LineStyle','-');
-plot(xfit,fitST87net(xfit),'Color',colors(2,:),'LineStyle','--');
-plot(xfit,fitST210gross(xfit),'Color',colors(3,:),'LineStyle',':','LineWidth',1);
-plot(xfit,fitST210net(xfit),'Color',colors(4,:),'LineStyle','-.');
-hold off
-
-
-%Figure formatting
-title(ax,'HTCs MICRO Rig, sandTES Spacing');
-xlabel(ax,'Fluidization Degree (-)');
-ylabel(ax,'Heat Transfer Coefficient (W/m²K)');
-legend(ax,{'87 µm Gross','87 µm Net','210 µm Gross','210 µm Net'},'Location','bestoutside');
-
-fig.Units='centimeters';
-fig.Position=[10,5,17,8.5];
-ax.XLim=xlim;
-ax.YGrid='on';
-saveas(fig,'Figure11.tiff');
+save('resultsMICRO.mat','fitST87gross','fitST87net','fitST210gross','fitST210net','-append');
 
 
 %% Analyze accuracies
@@ -391,7 +267,7 @@ for i=1:length(names)
     ax=gca;
     colors=ax.ColorOrder;
     xlim=[1,nnz(ind)];
-    hold on
+    hold(ax,'on');
     
     plot([tab.FGlower(ind),tab.FGupper(ind)],'Color',colors(1,:),'LineStyle','-');
     plot([tab.alpha_grossLower(ind),tab.alpha_grossUpper(ind)],'Color',colors(2,:),'LineStyle','--');
@@ -415,6 +291,77 @@ for i=1:length(names)
     ax.XLim=xlim;
     ax.YGrid='on';
     saveas(fig,['Figure',num2str(100+i),'.tiff']);  
+end
+
+
+%% Auxiliary functions
+function [fitGross,gofGross,fitNet,gofNet]=plotGrossNet(ax,tab,pitch,FGbounds,xfit,idx)
+    marker={'o','+','x','s'};
+    markersz=[sqrt(15),sqrt(15),sqrt(40),sqrt(30)];
+    linestyle={'-','--',':','-.'};
+    linewidth=[0.5,0.5,1,0.5];
+    colors=ax.ColorOrder;
+    
+    pitchidx=contains(tab.Dataset,pitch);
+    FGcats=tab.FG<FGbounds(2:end) & tab.FG>FGbounds(1:end-1);
+
+    
+    %FG
+    FG=arrayfun(@(x) mean(tab.FG(FGcats(:,x) & pitchidx)),1:size(FGcats,2));
+    FGpos=arrayfun(@(x) max(tab.FG(FGcats(:,x) & pitchidx)),1:size(FGcats,2))-FG;
+    FGneg=FG-arrayfun(@(x) min(tab.FG(FGcats(:,x) & pitchidx)),1:size(FGcats,2));
+    
+
+    %Gross
+    alpha=arrayfun(@(x) mean(tab.alpha_gross(FGcats(:,x) & pitchidx)),1:size(FGcats,2));
+    alphapos=arrayfun(@(x) max(tab.alpha_gross(FGcats(:,x) & pitchidx)),1:size(FGcats,2))-alpha;
+    alphaneg=alpha-arrayfun(@(x) min(tab.alpha_gross(FGcats(:,x) & pitchidx)),1:size(FGcats,2));
+
+    errorbar(ax,FG,alpha,alphaneg,alphapos,FGneg,FGpos,...
+                'Color',colors(idx(1),:),'CapSize',3,'LineStyle','none','Marker',marker{idx(1)},'MarkerSize',markersz(idx(1)));
+
+    [fitGross,gofGross]=fit(tab.FG(pitchidx),tab.alpha_gross(pitchidx),'poly2');
+    plot(ax,xfit,fitGross(xfit),'Color',colors(idx(1),:),'LineStyle',linestyle{idx(1)},'LineWidth',linewidth(idx(1)));
+    
+    
+    %Net
+    alpha=arrayfun(@(x) mean(tab.alpha_net(FGcats(:,x) & pitchidx)),1:size(FGcats,2));
+    alphapos=arrayfun(@(x) max(tab.alpha_net(FGcats(:,x) & pitchidx)),1:size(FGcats,2))-alpha;
+    alphaneg=alpha-arrayfun(@(x) min(tab.alpha_net(FGcats(:,x) & pitchidx)),1:size(FGcats,2));
+
+    errorbar(ax,FG,alpha,alphaneg,alphapos,FGneg,FGpos,...
+                'Color',colors(idx(2),:),'CapSize',3,'LineStyle','none','Marker',marker{idx(2)},'MarkerSize',markersz(idx(2)));
+
+    [fitNet,gofNet]=fit(tab.FG(pitchidx),tab.alpha_net(pitchidx),'poly2');
+    plot(ax,xfit,fitNet(xfit),'Color',colors(idx(2),:),'LineStyle',linestyle{idx(2)},'LineWidth',linewidth(idx(2)));
+end
+
+
+function formatFigure(fig,gofs)
+    ax=get(fig,'CurrentAxes');
+    colors=ax.ColorOrder;
+    
+    legItems=repmat(line(),4,1);
+    legItems(1)=plot(NaN,NaN,'Color',colors(1,:),'LineStyle','-','Marker','o');
+    legItems(2)=plot(NaN,NaN,'Color',colors(2,:),'LineStyle','--','Marker','+');
+    legItems(3)=plot(NaN,NaN,'Color',colors(3,:),'LineStyle',':','Marker','x','LineWidth',1);
+    legItems(4)=plot(NaN,NaN,'Color',colors(4,:),'LineStyle','-.','Marker','s');
+    
+    hold(ax,'off');
+
+    xlabel(ax,'Fluidization Degree (-)');
+    ylabel(ax,'Heat Transfer Coefficient (W/m²K)');
+    legend(ax,legItems,{['87 µm Gross',newline,'R^2 = ',num2str(round(gofs(1).rsquare,3))],...
+                        ['87 µm Net',newline,'R^2 = ',num2str(round(gofs(2).rsquare,3))],...
+                        ['210 µm Gross',newline,'R^2 = ',num2str(round(gofs(3).rsquare,3))],...
+                        ['210 µm Net',newline,'R^2 = ',num2str(round(gofs(4).rsquare,3))]},...
+                        'Location','bestoutside');
+
+    fig.Units='centimeters';
+    fig.Position=[10,5,17,8.5];
+    ax.XLim=[1.5,13];
+    ax.YLim=[100,400];
+    ax.YGrid='on';
 end
 
 

@@ -11,11 +11,11 @@
 %
 %All data, along with methodology reports and supplementary documentation, 
 %is published in the data repository:
-%https://doi.org/10.5281/zenodo.5802409
+%https://doi.org/10.5281/zenodo.5890230
 %
 %All required files for this script can be found in the software
 %repository:
-%https://doi.org/10.5281/zenodo.5802407
+%https://doi.org/10.5281/zenodo.5500329
 %
 %
 %
@@ -153,42 +153,19 @@ tabPlainWithout=accTRINI(tabPlainWithout,true);
 
 
 %Create figure
-fig=figure(15);
+fig=figure(12);
 clf(fig);
 ax=gca;
 colors=ax.ColorOrder;
-xlim=[1.5,6];
-x=tabPlainWithout.FG;
+xlim=[1.5,6.5];
 xfit=linspace(xlim(1),xlim(2),50);
 hold on
 
 
-y=tabPlainWithout.alpha_gross1;
-scatter(ax,x,y,10,colors(1,:),'o');
-
-[fitGross1,gofGross1]=fit(x,y,'poly2');
-plot(xfit,fitGross1(xfit),'Color',colors(1,:),'LineStyle','-');
-
-
-y=tabPlainWithout.alpha_net1;
-scatter(ax,x,y,10,colors(2,:),'+');
-
-[fitNet1,gofNet1]=fit(x,y,'poly2');
-plot(xfit,fitNet1(xfit),'Color',colors(2,:),'LineStyle','--');
-
-
-y=tabPlainWithout.alpha_gross2;
-scatter(ax,x,y,20,colors(3,:),'x');
-
-[fitGross2,gofGross2]=fit(x,y,'poly2');
-plot(xfit,fitGross2(xfit),'Color',colors(3,:),'LineStyle',':','LineWidth',1);
-
-
-y=tabPlainWithout.alpha_net2;
-scatter(ax,x,y,20,colors(4,:),'s');
-
-[fitNet2,gofNet2]=fit(x,y,'poly2');
-plot(xfit,fitNet2(xfit),'Color',colors(4,:),'LineStyle','-.');
+FG=tabPlainWithout.FG;
+FGbounds=[1.5,2,2.5,3.3,3.6,4,4.5,5.2,5.7,6.5];
+[gofGross1,gofNet1]=plotGrossNet(ax,FG,FGbounds,tabPlainWithout.alpha_gross1,tabPlainWithout.alpha_net1,xfit,[1,2]);
+[gofGross2,gofNet2]=plotGrossNet(ax,FG,FGbounds,tabPlainWithout.alpha_gross2,tabPlainWithout.alpha_net2,xfit,[3,4]);
 
 
 %Figure formatting
@@ -212,7 +189,11 @@ fig.Units='centimeters';
 fig.Position=[10,5,17,8.5];
 ax.XLim=xlim;
 ax.YGrid='on';
-saveas(fig,'Figure15.tiff');
+
+ax2=axes(fig,'Units','centimeters','Position',[2,5,3,3]);
+imshow('withoutBaffle.tiff','Parent',ax2,'Reduce',false);
+
+saveas(fig,'Figure12.tiff');
 
 save('resultsTRINI.mat','tabPlainWithout','p_AplainWithout','T_AplainWithout','wmfplainWithout');
 
@@ -301,42 +282,19 @@ tabPlainWith=accTRINI(tabPlainWith,true);
 
 
 %Create figure
-fig=figure(16);
+fig=figure(13);
 clf(fig);
 ax=gca;
 colors=ax.ColorOrder;
-xlim=[1.5,6];
-x=tabPlainWith.FG;
+xlim=[1.5,6.5];
 xfit=linspace(xlim(1),xlim(2),50);
 hold on
 
 
-y=tabPlainWith.alpha_gross1;
-scatter(ax,x,y,10,colors(1,:),'o');
-
-[fitGross1,gofGross1]=fit(x,y,'poly2');
-plot(xfit,fitGross1(xfit),'Color',colors(1,:),'LineStyle','-');
-
-
-y=tabPlainWith.alpha_net1;
-scatter(ax,x,y,10,colors(2,:),'+');
-
-[fitNet1,gofNet1]=fit(x,y,'poly2');
-plot(xfit,fitNet1(xfit),'Color',colors(2,:),'LineStyle','--');
-
-
-y=tabPlainWith.alpha_gross2;
-scatter(ax,x,y,20,colors(3,:),'x');
-
-[fitGross2,gofGross2]=fit(x,y,'poly2');
-plot(xfit,fitGross2(xfit),'Color',colors(3,:),'LineStyle',':','LineWidth',1);
-
-
-y=tabPlainWith.alpha_net2;
-scatter(ax,x,y,20,colors(4,:),'s');
-
-[fitNet2,gofNet2]=fit(x,y,'poly2');
-plot(xfit,fitNet2(xfit),'Color',colors(4,:),'LineStyle','-.');
+FG=tabPlainWith.FG;
+FGbounds=[1.5,2.2,2.7,3.5,4.5,6];
+[gofGross1,gofNet1]=plotGrossNet(ax,FG,FGbounds,tabPlainWith.alpha_gross1,tabPlainWith.alpha_net1,xfit,[1,2]);
+[gofGross2,gofNet2]=plotGrossNet(ax,FG,FGbounds,tabPlainWith.alpha_gross2,tabPlainWith.alpha_net2,xfit,[3,4]);
 
 
 %Figure formatting
@@ -360,62 +318,62 @@ fig.Units='centimeters';
 fig.Position=[10,5,17,8.5];
 ax.XLim=xlim;
 ax.YGrid='on';
-saveas(fig,'Figure16.tiff');
+
+ax2=axes(fig,'Units','centimeters','Position',[2,5,3,3]);
+imshow('withBaffle.tiff','Parent',ax2);
+
+saveas(fig,'Figure13.tiff');
 
 save('resultsTRINI.mat','tabPlainWith','p_AplainWith','T_AplainWith','wmfplainWith','-append');
 
 
 %% Plain tubes, comparison with / without baffle
 %Create figure
-fig=figure(17);
+fig=figure(14);
 clf(fig);
 ax=gca;
 colors=ax.ColorOrder;
-xlim=[1.5,6];
+xlim=[1.5,6.5];
 xfit=linspace(xlim(1),xlim(2),50);
 hold on
 
 
-x=FGwith;
-y=alpha_grossMeanWith;
-[fitGrossWith,gofGrossWith]=fit(x,y,'poly2');
-plot(xfit,fitGrossWith(xfit),'Color',colors(1,:),'LineStyle','-');
+FG=[tabPlainWith.FG;tabPlainWith.FG];
+alpha_gross=[tabPlainWith.alpha_gross1;tabPlainWith.alpha_gross2];
+alpha_net=[tabPlainWith.alpha_net1;tabPlainWith.alpha_net2];
+FGbounds=[1.5,2.2,2.7,3.5,4.5,6];
+[gofGrossWith,gofNetWith]=plotGrossNet(ax,FG,FGbounds,alpha_gross,alpha_net,xfit,[1,2]);
 
 
-y=alpha_netMeanWith;
-[fitNetWith,gofNetWith]=fit(x,y,'poly2');
-plot(xfit,fitNetWith(xfit),'Color',colors(2,:),'LineStyle','--');
-
-
-x=FGwithout;
-y=alpha_grossMeanWithout;
-[fitGrossWithout,gofGrossWithout]=fit(x,y,'poly2');
-plot(xfit,fitGrossWithout(xfit),'Color',colors(3,:),'LineStyle',':','LineWidth',1);
-
-
-y=alpha_netMeanWithout;
-[fitNetWithout,gofNetWithout]=fit(x,y,'poly2');
-plot(xfit,fitNetWithout(xfit),'Color',colors(4,:),'LineStyle','-.');
-hold off
+FG=[tabPlainWithout.FG;tabPlainWithout.FG];
+alpha_gross=[tabPlainWithout.alpha_gross1;tabPlainWithout.alpha_gross2];
+alpha_net=[tabPlainWithout.alpha_net1;tabPlainWithout.alpha_net2];
+FGbounds=[1.5,2,2.5,3.3,3.6,4,4.5,5.2,5.7,6.5];
+[gofGrossWithout,gofNetWithout]=plotGrossNet(ax,FG,FGbounds,alpha_gross,alpha_net,xfit,[3,4]);
 
 
 %Figure formatting
+legItems=repmat(line(),4,1);
+legItems(1)=plot(NaN,NaN,'Color',colors(1,:),'LineStyle','-','Marker','o');
+legItems(2)=plot(NaN,NaN,'Color',colors(2,:),'LineStyle','--','Marker','+');
+legItems(3)=plot(NaN,NaN,'Color',colors(3,:),'LineStyle',':','Marker','x','LineWidth',1);
+legItems(4)=plot(NaN,NaN,'Color',colors(4,:),'LineStyle','-.','Marker','s');
+hold off
+
 title(ax,'HTCs TRINI Rig, Plain with and without Baffle');
 xlabel(ax,'Fluidization Degree (-)');
 ylabel(ax,'Heat Transfer Coefficient (W/m²K)');
-legend(ax,{['Gross With, R^2 = ',num2str(round(gofGrossWith.rsquare,3))],...
-            ['Net With, R^2 = ',num2str(round(gofNetWith.rsquare,3))],...
-            ['Gross Without, R^2 = ',num2str(round(gofGrossWithout.rsquare,3))],...
-            ['Net Without, R^2 = ',num2str(round(gofNetWithout.rsquare,3))]},...
-            'Location','bestoutside');
+legend(ax,legItems,{['Gross With, R^2 = ',num2str(round(gofGrossWith.rsquare,3))],...
+                    ['Net With, R^2 = ',num2str(round(gofNetWith.rsquare,3))],...
+                    ['Gross Without, R^2 = ',num2str(round(gofGrossWithout.rsquare,3))],...
+                    ['Net Without, R^2 = ',num2str(round(gofNetWithout.rsquare,3))]},...
+                    'Location','bestoutside');
 
 fig.Units='centimeters';
 fig.Position=[10,5,17,8.5];
 ax.XLim=xlim;
 ax.YGrid='on';
-saveas(fig,'Figure17.tiff');
-
-save('resultsTRINI.mat','fitGrossWith','fitGrossWithout','-append');
+saveas(fig,'Figure14.tiff');
 
 
 %% Finned tubes, fin pitch 9 mm, fin thickness 2 mm (9/2)
@@ -501,42 +459,19 @@ tab92=accTRINI(tab92,false);
 
 
 %Create figure
-fig=figure(18);
+fig=figure(15);
 clf(fig);
 ax=gca;
 colors=ax.ColorOrder;
 xlim=[2,6];
-x=tab92.FG;
 xfit=linspace(xlim(1),xlim(2),50);
 hold on
 
 
-y=tab92.alpha_gross1;
-scatter(ax,x,y,10,colors(1,:),'o');
-
-[fitGross1,gofGross1]=fit(x,y,'poly2');
-plot(xfit,fitGross1(xfit),'Color',colors(1,:),'LineStyle','-');
-
-
-y=tab92.alpha_net1;
-scatter(ax,x,y,10,colors(2,:),'+');
-
-[fitNet1,gofNet1]=fit(x,y,'poly2');
-plot(xfit,fitNet1(xfit),'Color',colors(2,:),'LineStyle','--');
-
-
-y=tab92.alpha_gross2;
-scatter(ax,x,y,20,colors(3,:),'x');
-
-[fitGross2,gofGross2]=fit(x,y,'poly2');
-plot(xfit,fitGross2(xfit),'Color',colors(3,:),'LineStyle',':','LineWidth',1);
-
-
-y=tab92.alpha_net2;
-scatter(ax,x,y,20,colors(4,:),'s');
-
-[fitNet2,gofNet2]=fit(x,y,'poly2');
-plot(xfit,fitNet2(xfit),'Color',colors(4,:),'LineStyle','-.');
+FG=tab92.FG;
+FGbounds=[2,2.5,3,3.7,4.5,6];
+[gofGross1,gofNet1]=plotGrossNet(ax,FG,FGbounds,tab92.alpha_gross1,tab92.alpha_net1,xfit,[1,2]);
+[gofGross2,gofNet2]=plotGrossNet(ax,FG,FGbounds,tab92.alpha_gross2,tab92.alpha_net2,xfit,[3,4]);
 
 
 %Figure formatting
@@ -560,7 +495,11 @@ fig.Units='centimeters';
 fig.Position=[10,5,17,8.5];
 ax.XLim=xlim;
 ax.YGrid='on';
-saveas(fig,'Figure18.tiff');
+
+ax2=axes(fig,'Units','centimeters','Position',[2,5,3,3]);
+imshow('withoutBaffle.tiff','Parent',ax2);
+
+saveas(fig,'Figure15.tiff');
 
 save('resultsTRINI.mat','tab92','p_A92','T_A92','wmf92','-append');
 
@@ -648,42 +587,19 @@ tab91=accTRINI(tab91,false);
 
 
 %Create figure
-fig=figure(19);
+fig=figure(16);
 clf(fig);
 ax=gca;
 colors=ax.ColorOrder;
 xlim=[2,6];
-x=tab91.FG;
 xfit=linspace(xlim(1),xlim(2),50);
 hold on
 
 
-y=tab91.alpha_gross1;
-scatter(ax,x,y,10,colors(1,:),'o');
-
-[fitGross1,gofGross1]=fit(x,y,'poly2');
-plot(xfit,fitGross1(xfit),'Color',colors(1,:),'LineStyle','-');
-
-
-y=tab91.alpha_net1;
-scatter(ax,x,y,10,colors(2,:),'+');
-
-[fitNet1,gofNet1]=fit(x,y,'poly2');
-plot(xfit,fitNet1(xfit),'Color',colors(2,:),'LineStyle','--');
-
-
-y=tab91.alpha_gross2;
-scatter(ax,x,y,20,colors(3,:),'x');
-
-[fitGross2,gofGross2]=fit(x,y,'poly2');
-plot(xfit,fitGross2(xfit),'Color',colors(3,:),'LineStyle',':','LineWidth',1);
-
-
-y=tab91.alpha_net2;
-scatter(ax,x,y,20,colors(4,:),'s');
-
-[fitNet2,gofNet2]=fit(x,y,'poly2');
-plot(xfit,fitNet2(xfit),'Color',colors(4,:),'LineStyle','-.');
+FG=tab91.FG;
+FGbounds=[2,2.6,3.3,4,5,6];
+[gofGross1,gofNet1]=plotGrossNet(ax,FG,FGbounds,tab91.alpha_gross1,tab91.alpha_net1,xfit,[1,2]);
+[gofGross2,gofNet2]=plotGrossNet(ax,FG,FGbounds,tab91.alpha_gross2,tab91.alpha_net2,xfit,[3,4]);
 
 
 %Figure formatting
@@ -707,14 +623,18 @@ fig.Units='centimeters';
 fig.Position=[10,5,17,8.5];
 ax.XLim=xlim;
 ax.YGrid='on';
-saveas(fig,'Figure19.tiff');
+
+ax2=axes(fig,'Units','centimeters','Position',[1.8,0.6,3,3]);
+imshow('withoutBaffle.tiff','Parent',ax2);
+
+saveas(fig,'Figure16.tiff');
 
 save('resultsTRINI.mat','tab91','p_A91','T_A91','wmf91','-append');
 
 
 %% Finned tubes, comparison between 9/2 and 9/1
 %Create figure
-fig=figure(20);
+fig=figure(17);
 clf(fig);
 ax=gca;
 colors=ax.ColorOrder;
@@ -723,46 +643,42 @@ xfit=linspace(xlim(1),xlim(2),50);
 hold on
 
 
-x=FG92;
-y=alpha_grossMean92;
-[fitGross92,gofGross92]=fit(x,y,'poly2');
-plot(xfit,fitGross92(xfit),'Color',colors(1,:),'LineStyle','-');
+FG=[tab92.FG;tab92.FG];
+alpha_gross=[tab92.alpha_gross1;tab92.alpha_gross2];
+alpha_net=[tab92.alpha_net1;tab92.alpha_net2];
+FGbounds=[2,2.5,3,3.7,4.5,6];
+[gofGross92,gofNet92]=plotGrossNet(ax,FG,FGbounds,alpha_gross,alpha_net,xfit,[1,2]);
 
 
-y=alpha_netMean92;
-[fitNet92,gofNet92]=fit(x,y,'poly2');
-plot(xfit,fitNet92(xfit),'Color',colors(2,:),'LineStyle','--');
-
-
-x=FG91;
-y=alpha_grossMean91;
-[fitGross91,gofGross91]=fit(x,y,'poly2');
-plot(xfit,fitGross91(xfit),'Color',colors(3,:),'LineStyle',':','LineWidth',1);
-
-
-y=alpha_netMean91;
-[fitNet91,gofNet91]=fit(x,y,'poly2');
-plot(xfit,fitNet91(xfit),'Color',colors(4,:),'LineStyle','-.');
-hold off
+FG=[tab91.FG;tab91.FG];
+alpha_gross=[tab91.alpha_gross1;tab91.alpha_gross2];
+alpha_net=[tab91.alpha_net1;tab91.alpha_net2];
+FGbounds=[2,2.6,3.3,4,5,6];
+[gofGross91,gofNet91]=plotGrossNet(ax,FG,FGbounds,alpha_gross,alpha_net,xfit,[3,4]);
 
 
 %Figure formatting
+legItems=repmat(line(),4,1);
+legItems(1)=plot(NaN,NaN,'Color',colors(1,:),'LineStyle','-','Marker','o');
+legItems(2)=plot(NaN,NaN,'Color',colors(2,:),'LineStyle','--','Marker','+');
+legItems(3)=plot(NaN,NaN,'Color',colors(3,:),'LineStyle',':','Marker','x','LineWidth',1);
+legItems(4)=plot(NaN,NaN,'Color',colors(4,:),'LineStyle','-.','Marker','s');
+hold off
+
 title(ax,'Virtual HTCs TRINI Rig, Finned 9/2 and 9/1');
 xlabel(ax,'Fluidization Degree (-)');
 ylabel(ax,'Virtual HTC (W/m²K)');
-legend(ax,{['Gross 9/2, R^2 = ',num2str(round(gofGross92.rsquare,3))],...
-            ['Net 9/2, R^2 = ',num2str(round(gofNet92.rsquare,3))],...
-            ['Gross 9/1, R^2 = ',num2str(round(gofGross91.rsquare,3))],...
-            ['Net 9/1, R^2 = ',num2str(round(gofNet91.rsquare,3))]},...
-            'Location','bestoutside');
+legend(ax,legItems,{['Gross 9/2, R^2 = ',num2str(round(gofGross92.rsquare,3))],...
+                    ['Net 9/2, R^2 = ',num2str(round(gofNet92.rsquare,3))],...
+                    ['Gross 9/1, R^2 = ',num2str(round(gofGross91.rsquare,3))],...
+                    ['Net 9/1, R^2 = ',num2str(round(gofNet91.rsquare,3))]},...
+                    'Location','bestoutside');
 
 fig.Units='centimeters';
 fig.Position=[10,5,17,8.5];
 ax.XLim=xlim;
 ax.YGrid='on';
-saveas(fig,'Figure20.tiff');
-
-save('resultsTRINI.mat','fitGross92','fitGross91','-append');
+saveas(fig,'Figure17.tiff');
 
 
 %% Finned tubes, fin pitch 6 mm, fin thickness 1 mm (6/1)
@@ -845,42 +761,19 @@ tab61=accTRINI(tab61,false);
 
 
 %Create figure
-fig=figure(21);
+fig=figure(18);
 clf(fig);
 ax=gca;
 colors=ax.ColorOrder;
 xlim=[2,6];
-x=tab61.FG;
 xfit=linspace(xlim(1),xlim(2),50);
 hold on
 
 
-y=tab61.alpha_gross1;
-scatter(ax,x,y,10,colors(1,:),'o');
-
-[fitGross1,gofGross1]=fit(x,y,'poly1');
-plot(xfit,fitGross1(xfit),'Color',colors(1,:),'LineStyle','-');
-
-
-y=tab61.alpha_net1;
-scatter(ax,x,y,10,colors(2,:),'+');
-
-[fitNet1,gofNet1]=fit(x,y,'poly1');
-plot(xfit,fitNet1(xfit),'Color',colors(2,:),'LineStyle','--');
-
-
-y=tab61.alpha_gross2;
-scatter(ax,x,y,20,colors(3,:),'x');
-
-[fitGross2,gofGross2]=fit(x,y,'poly1');
-plot(xfit,fitGross2(xfit),'Color',colors(3,:),'LineStyle',':','LineWidth',1);
-
-
-y=tab61.alpha_net2;
-scatter(ax,x,y,20,colors(4,:),'s');
-
-[fitNet2,gofNet2]=fit(x,y,'poly1');
-plot(xfit,fitNet2(xfit),'Color',colors(4,:),'LineStyle','-.');
+FG=tab61.FG;
+FGbounds=[2,2.7,3.2,3.9,4.5,5.6,6];
+[gofGross1,gofNet1]=plotGrossNet(ax,FG,FGbounds,tab61.alpha_gross1,tab61.alpha_net1,xfit,[1,2],'poly1');
+[gofGross2,gofNet2]=plotGrossNet(ax,FG,FGbounds,tab61.alpha_gross2,tab61.alpha_net2,xfit,[3,4],'poly1');
 
 
 %Figure formatting
@@ -904,54 +797,59 @@ fig.Units='centimeters';
 fig.Position=[10,5,17,8.5];
 ax.XLim=xlim;
 ax.YGrid='on';
-saveas(fig,'Figure21.tiff');
+
+ax2=axes(fig,'Units','centimeters','Position',[5,5,3,3]);
+imshow('withoutBaffle.tiff','Parent',ax2);
+
+saveas(fig,'Figure18.tiff');
 
 
 %% Finned tubes, comparison between 9/2 and plain tube
 %Create figure
-fig=figure(22);
+fig=figure(19);
 clf(fig);
 ax=gca;
 colors=ax.ColorOrder;
-xlim=[1.5,6];
+xlim=[1.5,6.5];
 xfit=linspace(xlim(1),xlim(2),50);
 hold on
 
 
-x=FG92;
-y=alpha_grossMean92;
-fitGrossWith=fit(x,y,'poly2');
-plot(xfit,fitGrossWith(xfit),'Color',colors(1,:),'LineStyle','-');
+FG=[tab92.FG;tab92.FG];
+alpha_gross=[tab92.alpha_gross1;tab92.alpha_gross2];
+alpha_net=[tab92.alpha_net1;tab92.alpha_net2];
+FGbounds=[2,2.5,3,3.7,4.5,6];
+[gofGross92,gofNet92]=plotGrossNet(ax,FG,FGbounds,alpha_gross,alpha_net,xfit,[1,2]);
 
-
-y=alpha_netMean92;
-fitNetWith=fit(x,y,'poly2');
-plot(xfit,fitNetWith(xfit),'Color',colors(2,:),'LineStyle','--');
-
-
-x=FGwithout;
-y=alpha_grossMeanWithout;
-fitGrossWithout=fit(x,y,'poly2');
-plot(xfit,fitGrossWithout(xfit),'Color',colors(3,:),'LineStyle',':','LineWidth',1);
-
-
-y=alpha_netMeanWithout;
-fitNetWithout=fit(x,y,'poly2');
-plot(xfit,fitNetWithout(xfit),'Color',colors(4,:),'LineStyle','-.');
-hold off
+FG=[tabPlainWithout.FG;tabPlainWithout.FG];
+alpha_gross=[tabPlainWithout.alpha_gross1;tabPlainWithout.alpha_gross2];
+alpha_net=[tabPlainWithout.alpha_net1;tabPlainWithout.alpha_net2];
+FGbounds=[1.5,2,2.5,3.3,3.6,4,4.5,5.2,5.7,6.5];
+[gofGrossWithout,gofNetWithout]=plotGrossNet(ax,FG,FGbounds,alpha_gross,alpha_net,xfit,[3,4]);
 
 
 %Figure formatting
+legItems=repmat(line(),4,1);
+legItems(1)=plot(NaN,NaN,'Color',colors(1,:),'LineStyle','-','Marker','o');
+legItems(2)=plot(NaN,NaN,'Color',colors(2,:),'LineStyle','--','Marker','+');
+legItems(3)=plot(NaN,NaN,'Color',colors(3,:),'LineStyle',':','Marker','x','LineWidth',1);
+legItems(4)=plot(NaN,NaN,'Color',colors(4,:),'LineStyle','-.','Marker','s');
+hold off
+
 title(ax,'(Virtual) HTCs TRINI Rig, Plain and Finned 9/2');
 xlabel(ax,'Fluidization Degree (-)');
 ylabel(ax,'(Virtual) HTC (W/m²K)');
-legend(ax,{'Gross 9/2','Net 9/2','Gross Plain','Net Plain'},'Location','bestoutside');
+legend(ax,legItems,{['Gross 9/2, R^2 = ',num2str(round(gofGross92.rsquare,3))],...
+                    ['Net 9/2, R^2 = ',num2str(round(gofNet92.rsquare,3))],...
+                    ['Gross Plain, R^2 = ',num2str(round(gofGrossWithout.rsquare,3))],...
+                    ['Net Plain, R^2 = ',num2str(round(gofNetWithout.rsquare,3))]},...
+                    'Location','bestoutside');
 
 fig.Units='centimeters';
 fig.Position=[10,5,17,8.5];
 ax.XLim=xlim;
 ax.YGrid='on';
-saveas(fig,'Figure22.tiff');
+saveas(fig,'Figure19.tiff');
 
 
 %% Analyze accuracies
@@ -1027,6 +925,53 @@ for i=1:length(names)
     ax.XLim=xlim;
     ax.YGrid='on';
     saveas(fig,['Figure',num2str(300+i),'.tiff']);  
+end
+
+
+%% Auxiliary functions
+function [gofGross,gofNet]=plotGrossNet(ax,FG,FGbounds,alpha_gross,alpha_net,xfit,idx,fitType)
+    if nargin<8
+        fitType='poly2';
+    end
+    
+    marker={'o','+','x','s'};
+    markersz=[sqrt(15),sqrt(15),sqrt(40),sqrt(30)];
+    linestyle={'-','--',':','-.'};
+    linewidth=[0.5,0.5,1,0.5];
+    colors=ax.ColorOrder;
+    
+    
+    FGcats=FG<FGbounds(2:end) & FG>FGbounds(1:end-1);
+
+    
+    %FG
+    FGmean=arrayfun(@(x) mean(FG(FGcats(:,x))),1:size(FGcats,2));
+    FGpos=arrayfun(@(x) max(FG(FGcats(:,x))),1:size(FGcats,2))-FGmean;
+    FGneg=FGmean-arrayfun(@(x) min(FG(FGcats(:,x))),1:size(FGcats,2));
+    
+
+    %Gross
+    alpha=arrayfun(@(x) mean(alpha_gross(FGcats(:,x))),1:size(FGcats,2));
+    alphapos=arrayfun(@(x) max(alpha_gross(FGcats(:,x))),1:size(FGcats,2))-alpha;
+    alphaneg=alpha-arrayfun(@(x) min(alpha_gross(FGcats(:,x))),1:size(FGcats,2));
+
+    errorbar(ax,FGmean,alpha,alphaneg,alphapos,FGneg,FGpos,...
+                'Color',colors(idx(1),:),'CapSize',3,'LineStyle','none','Marker',marker{idx(1)},'MarkerSize',markersz(idx(1)));
+
+    [fitGross,gofGross]=fit(FG,alpha_gross,fitType);
+    plot(ax,xfit,fitGross(xfit),'Color',colors(idx(1),:),'LineStyle',linestyle{idx(1)},'LineWidth',linewidth(idx(1)));
+    
+    
+    %Net
+    alpha=arrayfun(@(x) mean(alpha_net(FGcats(:,x))),1:size(FGcats,2));
+    alphapos=arrayfun(@(x) max(alpha_net(FGcats(:,x))),1:size(FGcats,2))-alpha;
+    alphaneg=alpha-arrayfun(@(x) min(alpha_net(FGcats(:,x))),1:size(FGcats,2));
+
+    errorbar(ax,FGmean,alpha,alphaneg,alphapos,FGneg,FGpos,...
+                'Color',colors(idx(2),:),'CapSize',3,'LineStyle','none','Marker',marker{idx(2)},'MarkerSize',markersz(idx(2)));
+
+    [fitNet,gofNet]=fit(FG,alpha_net,fitType);
+    plot(ax,xfit,fitNet(xfit),'Color',colors(idx(2),:),'LineStyle',linestyle{idx(2)},'LineWidth',linewidth(idx(2)));
 end
 
 

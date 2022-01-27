@@ -11,7 +11,7 @@
 %
 %All required files for this function can be found in the software
 %repository:
-%https://doi.org/10.5281/zenodo.5802407
+%https://doi.org/10.5281/zenodo.5500329
 %
 %
 %

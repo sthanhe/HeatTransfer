@@ -11,11 +11,11 @@
 %
 %All data, along with methodology reports and supplementary documentation, 
 %is published in the data repository:
-%https://doi.org/10.5281/zenodo.5802409
+%https://doi.org/10.5281/zenodo.5890230
 %
 %All required files for this script can be found in the software
 %repository:
-%https://doi.org/10.5281/zenodo.5802407
+%https://doi.org/10.5281/zenodo.5500329
 %
 %
 %
@@ -124,51 +124,7 @@ tabPlain.alpha_net=(tabPlain.U.*tabPlain.I.*cos(tabPlain.phi)-QdotLoss)./A./(tab
 tabPlain=accLINI(tabPlain);
 
 
-%Create figure
-fig=figure(12);
-clf(fig);
-ax=gca;
-colors=ax.ColorOrder;
-xlim=[1.5,5.5];
-x=tabPlain.FG;
-xfit=linspace(xlim(1),xlim(2),50);
-hold on
-
-
-y=tabPlain.alpha_gross;
-scatter(ax,x,y,10,colors(1,:),'o');
-
-[fitPlainGross,gofPlainGross]=fit(x,y,'poly2');
-plot(xfit,fitPlainGross(xfit),'Color',colors(1,:),'LineStyle','-');
-
-
-y=tabPlain.alpha_net;
-scatter(ax,x,y,10,colors(2,:),'+');
-
-[fitPlainNet,gofPlainNet]=fit(x,y,'poly2');
-plot(xfit,fitPlainNet(xfit),'Color',colors(2,:),'LineStyle','--');
-
-
-%Figure formatting
-legItems=repmat(line(),2,1);
-legItems(1)=plot(NaN,NaN,'Color',colors(1,:),'LineStyle','-','Marker','o');
-legItems(2)=plot(NaN,NaN,'Color',colors(2,:),'LineStyle','--','Marker','+');
-hold off
-
-title(ax,['HTCs LINI Rig, Plain Tube, w_{mf}=',num2str(round(mean(wmfPlain*10^3),1)),' mm/s']);
-xlabel(ax,'Fluidization Degree (-)');
-ylabel(ax,'Heat Transfer Coefficient (W/m²K)');
-legend(legItems,{['Gross, R^2 = ',num2str(round(gofPlainGross.rsquare,3))],...
-                    ['Net, R^2 = ',num2str(round(gofPlainNet.rsquare,3))]},...
-                    'Location','bestoutside');
-
-fig.Units='centimeters';
-fig.Position=[10,5,17,8.5];
-ax.XLim=xlim;
-ax.YGrid='on';
-saveas(fig,'Figure12.tiff');
-
-save('resultsLINI.mat','tabPlain','fitPlainGross','p_Aplain','T_Aplain','wmfPlain');
+save('resultsLINI.mat','tabPlain','p_Aplain','T_Aplain','wmfPlain');
 
 
 %% Finned tubes
@@ -231,83 +187,51 @@ tabFinned.alpha_net=(tabFinned.U.*tabFinned.I.*cos(tabFinned.phi)-QdotLoss)./A./
 tabFinned=accLINI(tabFinned);
 
 
+save('resultsLINI.mat','tabFinned','p_Afinned','T_Afinned','wmfFinned','-append');
+
+
+%% Comparison between plain and finned tubes
 %Create figure
-fig=figure(13);
+fig=figure(11);
 clf(fig);
 ax=gca;
 colors=ax.ColorOrder;
 xlim=[1.5,5.5];
-x=tabFinned.FG;
 xfit=linspace(xlim(1),xlim(2),50);
 hold on
 
 
-y=tabFinned.alpha_gross;
-scatter(ax,x,y,10,colors(1,:),'o');
-
-[fitFinnedGross,gofFinnedGross]=fit(x,y,'poly2');
-plot(xfit,fitFinnedGross(xfit),'Color',colors(1,:),'LineStyle','-');
-
-
-y=tabFinned.alpha_net;
-scatter(ax,x,y,10,colors(2,:),'+');
-
-[fitFinnedNet,gofFinnedNet]=fit(x,y,'poly2');
-plot(xfit,fitFinnedNet(xfit),'Color',colors(2,:),'LineStyle','--');
+%Plotting
+FGbounds=[1.5,2.2,2.7,3.3,4,4.5,5.1];
+[fitPlainGross,gofPlainGross,gofPlainNet]=plotGrossNet(ax,tabPlain,FGbounds,xfit,[1,2]);
+[fitFinnedGross,gofFinnedGross,gofFinnedNet]=plotGrossNet(ax,tabFinned,FGbounds,xfit,[3,4]);
 
 
 %Figure formatting
-legItems=repmat(line(),2,1);
+legItems=repmat(line(),4,1);
 legItems(1)=plot(NaN,NaN,'Color',colors(1,:),'LineStyle','-','Marker','o');
 legItems(2)=plot(NaN,NaN,'Color',colors(2,:),'LineStyle','--','Marker','+');
+legItems(3)=plot(NaN,NaN,'Color',colors(3,:),'LineStyle',':','Marker','x','LineWidth',1);
+legItems(4)=plot(NaN,NaN,'Color',colors(4,:),'LineStyle','-.','Marker','s');
 hold off
 
-title(ax,['Virtual HTCs LINI Rig, Finned Tube, w_{mf}=',num2str(round(mean(wmfFinned*10^3),1)),' mm/s']);
+title(ax,['(Virtual) HTCs LINI Rig, w_{mf}=',num2str(round(mean([wmfPlain;wmfFinned]*10^3),1)),' mm/s']);
 xlabel(ax,'Fluidization Degree (-)');
-ylabel(ax,'Virtual HTC (W/m²K)');
-legend(legItems,{['Gross, R^2 = ',num2str(round(gofFinnedGross.rsquare,3))],...
-                    ['Net, R^2 = ',num2str(round(gofFinnedNet.rsquare,3))]},...
+ylabel(ax,'(Virtual) HTC (W/m²K)');
+legend(legItems,{['Plain Gross',newline,'R^2 = ',num2str(round(gofPlainGross.rsquare,3))],...
+                    ['Plain Net',newline,'R^2 = ',num2str(round(gofPlainNet.rsquare,3))],...
+                    ['Finned Gross',newline,'R^2 = ',num2str(round(gofFinnedGross.rsquare,3))],...
+                    ['Finned Net',newline,'R^2 = ',num2str(round(gofFinnedNet.rsquare,3))]},...
                     'Location','bestoutside');
 
 fig.Units='centimeters';
 fig.Position=[10,5,17,8.5];
 ax.XLim=xlim;
 ax.YGrid='on';
-saveas(fig,'Figure13.tiff');
-
-save('resultsLINI.mat','tabFinned','fitFinnedGross','wmfFinned','p_Afinned','T_Afinned','-append');
+saveas(fig,'Figure11.tiff');
 
 
-%% Comparison between plain and finned tubes
-%Create figure
-fig=figure(14);
-clf(fig);
-ax=gca;
-colors=ax.ColorOrder;
-xlim=[1.5,5.5];
-xfit=linspace(xlim(1),xlim(2),50);
-hold on
-
-
-%Plot previous fits
-plot(xfit,fitPlainGross(xfit),'Color',colors(1,:),'LineStyle','-');
-plot(xfit,fitPlainNet(xfit),'Color',colors(2,:),'LineStyle','--');
-plot(xfit,fitFinnedGross(xfit),'Color',colors(3,:),'LineStyle',':','LineWidth',1);
-plot(xfit,fitFinnedNet(xfit),'Color',colors(4,:),'LineStyle','-.');
-hold off
-
-
-%Figure formatting
-title(ax,'(Virtual) HTCs LINI Rig');
-xlabel(ax,'Fluidization Degree (-)');
-ylabel(ax,'(Virtual) HTC (W/m²K)');
-legend(ax,{'Plain Gross','Plain Net','Finned Gross','Finned Net'},'Location','bestoutside');
-
-fig.Units='centimeters';
-fig.Position=[10,5,17,8.5];
-ax.XLim=xlim;
-ax.YGrid='on';
-saveas(fig,'Figure14.tiff');
+save('resultsLINI.mat','fitPlainGross','fitFinnedGross','-append');
 
 
 %% Analyze accuracies
@@ -385,6 +309,47 @@ for i=1:length(names)
     saveas(fig,['Figure',num2str(200+i),'.tiff']);  
 end
 
+
+%% Auxiliary functions
+function [fitGross,gofGross,gofNet]=plotGrossNet(ax,tab,FGbounds,xfit,idx)
+    marker={'o','+','x','s'};
+    markersz=[sqrt(15),sqrt(15),sqrt(40),sqrt(30)];
+    linestyle={'-','--',':','-.'};
+    linewidth=[0.5,0.5,1,0.5];
+    colors=ax.ColorOrder;
+    
+    FGcats=tab.FG<FGbounds(2:end) & tab.FG>FGbounds(1:end-1);
+
+    
+    %FG
+    FG=arrayfun(@(x) mean(tab.FG(FGcats(:,x))),1:size(FGcats,2));
+    FGpos=arrayfun(@(x) max(tab.FG(FGcats(:,x))),1:size(FGcats,2))-FG;
+    FGneg=FG-arrayfun(@(x) min(tab.FG(FGcats(:,x))),1:size(FGcats,2));
+    
+
+    %Gross
+    alpha=arrayfun(@(x) mean(tab.alpha_gross(FGcats(:,x))),1:size(FGcats,2));
+    alphapos=arrayfun(@(x) max(tab.alpha_gross(FGcats(:,x))),1:size(FGcats,2))-alpha;
+    alphaneg=alpha-arrayfun(@(x) min(tab.alpha_gross(FGcats(:,x))),1:size(FGcats,2));
+
+    errorbar(ax,FG,alpha,alphaneg,alphapos,FGneg,FGpos,...
+                'Color',colors(idx(1),:),'CapSize',3,'LineStyle','none','Marker',marker{idx(1)},'MarkerSize',markersz(idx(1)));
+
+    [fitGross,gofGross]=fit(tab.FG,tab.alpha_gross,'poly2');
+    plot(ax,xfit,fitGross(xfit),'Color',colors(idx(1),:),'LineStyle',linestyle{idx(1)},'LineWidth',linewidth(idx(1)));
+    
+    
+    %Net
+    alpha=arrayfun(@(x) mean(tab.alpha_net(FGcats(:,x))),1:size(FGcats,2));
+    alphapos=arrayfun(@(x) max(tab.alpha_net(FGcats(:,x))),1:size(FGcats,2))-alpha;
+    alphaneg=alpha-arrayfun(@(x) min(tab.alpha_net(FGcats(:,x))),1:size(FGcats,2));
+
+    errorbar(ax,FG,alpha,alphaneg,alphapos,FGneg,FGpos,...
+                'Color',colors(idx(2),:),'CapSize',3,'LineStyle','none','Marker',marker{idx(2)},'MarkerSize',markersz(idx(2)));
+
+    [fitNet,gofNet]=fit(tab.FG,tab.alpha_net,'poly2');
+    plot(ax,xfit,fitNet(xfit),'Color',colors(idx(2),:),'LineStyle',linestyle{idx(2)},'LineWidth',linewidth(idx(2)));
+end
 
 
 
